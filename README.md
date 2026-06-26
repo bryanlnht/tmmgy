@@ -1,1 +1,1 @@
-https://wwww.bryanlnht.github.io/tmmgy
+https://bryanlnht.github.io/tmmgy/
