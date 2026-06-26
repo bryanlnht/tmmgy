@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Than Maung Magway | Eyewear</title>
+    <style>
+        /* === BASE STYLES & TYPOGRAPHY === */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            --black: #000000;
+            --white: white;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        h1, h2, h3, .brand-logo {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* === MENU BAR === */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference; /* Ensures visibility on B&W backgrounds */
+            color: white;
+        }
+
+        .brand-logo {
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        nav ul li a {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: opacity 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.6;
+        }
+
+        /* === SCROLL ANIMATIONS === */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* === SECTION 1: ABOUT US === */
+        #about { 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            
+            /* --- New Background Image Properties --- */
+            background-color: var(--black); /* Acts as a fallback if the image doesn't load */
+            background-image: url('frame.jpg'); /* Replace with your actual image path */
+            background-size: cover; /* Ensures the image covers the entire container */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from tiling */
+            /* --------------------------------------- */
+            
+            color: var(--white);
+            padding: 0 20px;
+        }
+
+        #about h1 {
+            font-size: 5rem;
+            letter-spacing: 15px;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        #about p {
+            max-width: 600px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            letter-spacing: 1px;
+            font-weight: 300;
+            color: var(--white;)
+        }
+
+        /* === SECTION 2: PRODUCTS === */
+        #products {
+            padding: 8rem 4rem;
+            background: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            letter-spacing: 8px;
+            margin-bottom: 5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .product-card {
+            position: relative;
+            height: 70vh;
+            overflow: hidden;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 800px;
+            object-fit: cover;
+            transition: opacity 0.8s ease, transform 1.5s ease;
+        }
+
+        .hover-img {
+            opacity: 0;
+        }
+
+        .product-card:hover .default-img {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        .product-card:hover .hover-img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .product-title {
+            position: relative;
+            z-index: 2;
+            color: var(--white);
+            font-size: 2rem;
+            letter-spacing: 5px;
+            mix-blend-mode: difference;
+            pointer-events: none;
+        }
+
+        /* === SECTION 3: INFO & LOCATIONS === */
+        #contact {
+            padding: 8rem 4rem;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .locations-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-bottom: 6rem;
+        }
+
+        .location-card {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Staggered transition delays for location cards */
+        .location-card:nth-child(1) { transition-delay: 0.1s; }
+        .location-card:nth-child(2) { transition-delay: 0.3s; }
+        .location-card:nth-child(3) { transition-delay: 0.5s; }
+
+        .location-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .location-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .location-card p {
+            font-weight: 300;
+            line-height: 1.6;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 4rem;
+        }
+
+        .contact-info a {
+            font-size: 1.5rem;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .contact-info a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--white);
+            transition: width 0.4s ease;
+        }
+
+        .contact-info a:hover::after {
+            width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .grid, .locations-wrapper {
+                grid-template-columns: 1fr;
+            }
+            #about h1 { font-size: 3rem; }
+            header { padding: 1.5rem 2rem; flex-direction: column; gap: 1rem; }
+            nav ul { gap: 1.5rem; }
+            .product-card { height: 50vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu Bar -->
+    <header>
+        <div class="brand-logo">Than Maung Magway</div>
+        <nav>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 1. Introduction -->
+    <section id="about">
+        <img src="white.png" class="fade-up">
+        <p class="fade-up">Frame Your Story. </p></section>
+
+    <!-- 2. Body / Products -->
+    <section id="products">
+        <h2 class="section-title fade-up">Our Collections</h2>
+        <div class="grid">
+            <!-- Product 1: Shades -->
+            <div class="product-card fade-up">
+                <!-- Using placeholder images that fit the vibe -->
+                <img src="shades front.png" alt="Shades Default" class="product-img default-img">
+                <img src="shades side.png" alt="Shades Hover" class="product-img hover-img">
+                <h3 class="product-title">Shades</h3>
+            </div>
+            
+            <!-- Product 2: Glasses -->
+            <div class="product-card fade-up">
+                <img src="glasses front.webp" alt="Glasses Default" class="product-img default-img">
+                <img src="glasses side.webp" alt="Glasses Hover" class="product-img hover-img">
+                <h3 class="product-title">Glasses</h3>
+            </div>
+
+            <!-- Product 3: Contact Lens -->
+            <div class="product-card fade-up">
+                <img src="contacts copy.png" alt="Contact Lens Default" class="product-img default-img">
+                <img src="contactss.png" alt="Contact Lens Hover" class="product-img hover-img">
+                <h3 class="product-title">Contact Lens</h3>
+            </div>
+
+            <!-- Product 4: Frames -->
+            <div class="product-card fade-up">
+                <img src="frames front.jpg" alt="Frames Default" class="product-img default-img">
+                <img src="frames side.jpg" alt="Frames Hover" class="product-img hover-img">
+                <h3 class="product-title">Frames</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Info / Contact -->
+    <section id="contact">
+        <h2 class="section-title fade-up">Sanctuaries</h2>
+        
+        <div class="locations-wrapper">
+            <!-- Location 1 -->
+            <div class="location-card reveal-card">
+                <h3>Magway</h3>
+                <p>idk street</p>
+                <p>Magway, Magway District</p>
+                <p><br><strong>Opening Days:</strong> Mon - Sun</p>
+                <p>7:00 AM - 5:00 PM</p>
+            </div>
+            
+            <!-- Location 2 -->
+            <div class="location-card reveal-card">
+                <h3>Pyin Oo Lwin</h3>
+                <p>idk street</p>
+                <p>Pwin Oo Lwin, Mandalay District</p>
+                <p><br><strong>Opening Days:</strong> Mon - Sun</p>
+                <p>7:00 AM - 5:00 PM</p>
+            </div>
+
+            <!-- Location 3 -->
+            <div class="location-card reveal-card">
+                <h3>Nay Pyi Taw</h3>
+                <p>idk street</p>
+                <p>Nay Pyi Taw, Mandalay District</p>
+                <p><br><strong>Opening Days:</strong> Mon - Sun</p>
+                <p>7:00 AM - 5:00 PM</p>
+            </div>
+        </div>
+
+        <div class="contact-info fade-up">
+            <a href="mailto:thanmaungmgy@gmail.com">thanmaungmgy@gmail.com</a>
+        </div>
+    </section>
+
+    <script>
+
+        /* =========================================
+           2. INTERSECTION OBSERVER (Scroll Animations)
+           ========================================= */
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Triggers when 15% of the element is visible
+            };
+
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: unobserve if you only want the animation to happen once
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe standard fade-up elements
+            document.querySelectorAll('.fade-up').forEach(el => {
+                scrollObserver.observe(el);
+            });
+
+            // Observe location cards for staggered animation
+            document.querySelectorAll('.reveal-card').forEach(el => {
+                scrollObserver.observe(el);
+            });
+        });
+
+        /* =========================================
+           3. SMOOTH SCROLL FOR MENU
+           ========================================= */
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
